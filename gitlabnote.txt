@@ -1,0 +1,10 @@
+先安裝這些套件 sudo apt-get install curl openssh-server ca-certificates postfix tzdata安裝需要的套件
+google搜尋gitlab packages去找合適的Packages
+再來 複製該套件wget的指令到cmd
+sudo dpkg -i 下載的套件名稱
+sudo gitlab-ctl reconfigure 設置gitlab環境
+sudo vim /etc/gitlab/gitlab.rb 找到external_url去修改要用的URL跟PORT 例如external_url 'http://10.0.2.15:80'
+sudo gitlab-ctl reconfigure 重新設置gitlab環境
+root登入的帳號密碼:
+帳號:root
+密碼:sudo vim/etc/gitlab/initital_root_password 文件去複製
