@@ -1,0 +1,37 @@
+安裝Docker：https://docs.docker.com/engine/install/ubuntu/ 參考官方網站做法
+
+接著用Docker架設GitLab
+
+docker pull gitlab/gitlab-ce:latest //下載Image檔案
+
+docker images //確認下載狀況
+
+mkdir gitlab //建個資料夾以便存放 gitlab container 的應用程式資料(datas)、日誌(logs)與及配置檔 (config)。
+
+export GITLAB_HOME={location}/gitlab //設定 gitlab 環境變數，{location}為要存放的目錄位置，例如/home/gitlab
+
+docker run --detach \
+--hostname gitlab.com \
+--name gitlab \
+--restart always \  
+--publish 10443:443 --publish 10080:80 --publish 10022:22 \
+--volume $GITLAB_HOME/config:/etc/gitlab \
+--volume $GITLAB_HOME/logs:/var/log/gitlab \
+--volume $GITLAB_HOME/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest
+//安裝gitlab 反斜線記得去掉
+
+//參數說明：
+--detach：以背景模式執行
+--hostname：設定container內部的域名
+--name：設定container的名稱
+--restart：電腦啟動自動重啟
+--publish：把本機的 port 映射到container 的 port
+--volume：把本機檔案系統目錄映射到container的目錄
+建議本機的PORT不要用10080，可以放到8080或8383等等，10080有可能被瀏覽器認為是不安全的訪問
+
+docker ps //確認啟動狀態
+
+接著瀏覽器輸入主機IP+PORT,例如10.0.2.15:8080去確認服務是否開啟成功
+
+docker exec -ti gitlab bash//進入gitlab的Docker，找root密碼方法已經寫在另外一個文件，建議進入之後先apt-get update之後安裝VIM
